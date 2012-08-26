@@ -11,7 +11,7 @@
 --初始化游戏
 --VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 local Game={
-	Title='请输入标题',			--标题
+	Title='HoRPG Framework',	--标题
 	Width=800,					--宽度
 	Height=600,					--高度
 	FPS=60,						--最大帧率

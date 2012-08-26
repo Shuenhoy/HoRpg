@@ -6,8 +6,10 @@
 -- @copyright 请填入您的版权信息
 -- @release 这个文件由HoGE自动生成,请按照您的需要进行修改
 --------------------------------------------------------------------------------------
-
-
+o=Game_Player:new()
+a=Display_Character:new(o)
+a:set_image(HoGE.Image:FromFile("img/a.png"))
+c=Display_Map:new()
 --------------------------------------------------------------------------------------
 -- @class function
 -- @name Update
@@ -17,7 +19,12 @@
 -- @return 无
 --------------------------------------------------------------------------------------
 function Update()
-
+	--o.step=o.step+1
+--	if o.step==5 then o.step=1 end
+	a:update()
+	o:update()
+	
+	sleep(0.1)
 end
 
 
@@ -30,6 +37,10 @@ end
 -- @return 无
 --------------------------------------------------------------------------------------
 function Event(msg)
+
+	
+	--	o:moveto(p.x,o.y)
+	
 end
 --开始主循环
 HoGE.Loop()
