@@ -10,7 +10,7 @@
 
 --初始化游戏
 --VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-local Game={
+Game={
 	Title='HoRPG Framework',	--标题
 	Width=800,					--宽度
 	Height=600,					--高度
@@ -143,3 +143,73 @@ function sleep(sec)
 end
 
 
+--------------------------------------------------------------------------------------
+-- 自定义初始化部分
+--------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------
+-- @class table
+-- @name global_manager
+--------------------------------------------------------------------------------------
+-- @description 一些全局变量管理器
+--------------------------------------------------------------------------------------
+global_manager={
+	
+}
+--------------------------------------------------------------------------------------
+-- @class function
+-- @name global_init
+--------------------------------------------------------------------------------------
+-- @description 初始化全局变量
+--------------------------------------------------------------------------------------
+function global_init()
+	
+	global_manager.player=Game_Player:new()
+	global_manager.map=Game_Map:new()
+	global_manager.display_map=Display_Map:new()
+end
+
+local dofile=dofile
+local print = print
+local tconcat = table.concat
+local tinsert = table.insert
+local srep = string.rep
+local type = type
+local pairs = pairs
+local ipairs = ipairs
+local tostring = tostring
+local next = next
+local modf=math.modf
+local string=string
+function print_r(root)
+	local cache = {  [root] = "." }
+	local function _dump(t,space,name)
+		local temp = {}
+		for k,v in pairs(t) do
+			local key = tostring(k)
+			if cache[v] then
+				tinsert(temp,"+" .. key .. " {" .. cache[v].."}")
+			elseif type(v) == "table" then
+				local new_key = name .. "." .. key
+				cache[v] = new_key
+				tinsert(temp,"+" .. key .. _dump(v,space .. (next(t,k) and "|" or " " ).. srep(" ",#key),new_key))
+			else
+				tinsert(temp,"+" .. key .. " [" .. tostring(v).."]")
+			end
+		end
+		return tconcat(temp,"\n"..space)
+	end
+	print(_dump(root, "",""))
+end
+function getIntPart(x)
+	if x <= 0 then
+	return math.ceil(x);
+	end
+	
+	if math.ceil(x) == x then
+	x = math.ceil(x);
+	else
+	x = math.ceil(x) - 1;
+	end
+	return x;
+end

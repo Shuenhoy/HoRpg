@@ -2,14 +2,18 @@
 -- @class file
 -- @name main.lua
 --------------------------------------------------------------------------------------
--- @author 请输入你的名字
--- @copyright 请填入您的版权信息
+-- @author Shuenhoy
+-- @copyright Shuenhoy (C)
 -- @release 这个文件由HoGE自动生成,请按照您的需要进行修改
 --------------------------------------------------------------------------------------
-o=Game_Player:new()
-a=Display_Character:new(o)
+
+global_init()
+global_manager.map:setup(dofile("data/map1.lua"))
+
+global_manager.display_map:setup(global_manager.map)
+a=Display_Character:new(global_manager.player)
 a:set_image(HoGE.Image:FromFile("img/a.png"))
-c=Display_Map:new()
+
 --------------------------------------------------------------------------------------
 -- @class function
 -- @name Update
@@ -22,9 +26,9 @@ function Update()
 	--o.step=o.step+1
 --	if o.step==5 then o.step=1 end
 	a:update()
-	o:update()
-	
-	sleep(0.1)
+	global_manager.display_map:update()
+	global_manager.player:update()
+	sleep(0.05)
 end
 
 
@@ -37,7 +41,11 @@ end
 -- @return 无
 --------------------------------------------------------------------------------------
 function Event(msg)
-
+	if msg.type == HoGE.KEYDOWN then
+		if msg.KeyCode==19 then
+			os.execute("pause")
+		end
+	end
 	
 	--	o:moveto(p.x,o.y)
 	
