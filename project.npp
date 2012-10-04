@@ -1,0 +1,28 @@
+<NotepadPlus>
+    <Project name="HoRPG">
+        <Folder name="source">
+            <Folder name="data">
+                <File name="source\data\map1.lua" />
+            </Folder>
+            <Folder name="img">
+                <File name="source\img\a.png" />
+                <File name="source\img\c.png" />
+                <File name="source\img\test.png" />
+            </Folder>
+            <Folder name="src">
+                <Folder name="window">
+                    <File name="source\src\window\message.lua" />
+                    <File name="source\src\window\base.lua" />
+                </Folder>
+                <File name="source\src\Character.lua" />
+                <File name="source\src\hoop.lua" />
+                <File name="source\src\init.lua" />
+                <File name="source\src\main.lua" />
+                <File name="source\src\map.lua" />
+            </Folder>
+            <File name="source\maps.tmx" />
+            <File name="source\_HoGE" />
+        </Folder>
+        <File name="README.md" />
+    </Project>
+</NotepadPlus>

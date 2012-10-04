@@ -48,81 +48,89 @@ class. Game_Map() do
 		return a-b==0
 	end
 	function __c:passable(x,y,d)
+		--判断是否在地图内
 		if not self:valid(x,y) then
 			return false
-		end
-		--[[
-		x=x-1
-		y=y+1
-		--]]
+		end--if
 		for k,v in ipairs(self.data.layers) do
+			--仅当为「对象层」 类型为「pass」(通行层)时
 			if v.type == "objectgroup" and v.properties["type"] == "pass"  then
 				for k2,v2 in ipairs(v.objects) do
-					--计算路径左上角
-					local xx,yy = v2.x/self.data.tilewidth+1,v2.y/self.data.tileheight
+					local start_x,start_y = v2.x/self.data.tilewidth+1,v2.y/self.data.tileheight
+					
+					--块状通行快
 					if v2.width>0 or v2.height>0 then
-						local w,h=v2.width/self.data.tilewidth-1,v2.height/self.data.tileheight-1
-						if x>=xx and x<= xx+w and y>=yy and y<= yy+h then
+						local w,h=v2.width/self.data.tilewidth-1,v2.height/self.data.tileheight-1						
+						--不能走进去
+						if x>=start_x and x<= start_x+w and y>=start_y and y<= start_y+h then
 							return false
-						end
-					else
-						
-						local last_x,last_y=xx,yy
+						end--if
+					else--if
+					--线型通行
+					
+						local last_x,last_y=start_x,start_y
 						for k3,v3 in ipairs(v2.polyline) do
-							local x3,y3=xx+v3.x/self.data.tilewidth-1,yy+v3.y/self.data.tileheight
+							local next_x,next_y=start_x+v3.x/self.data.tilewidth-1,start_y+v3.y/self.data.tileheight
 							
-							if x3 > last_x  then
-								if is_width_liner(y3,last_y) and x>last_x and x<= x3 then
-									if d==1 and y == y3 then
+							--「↑↓」方向的通行判断
+							
+							--自左向右连线
+							if next_x > last_x  then
+								--是横线且角色位置处于横线处,分别判断「↑↓」方向
+								if is_width_liner(next_y,last_y) and x>last_x and x<= next_x then
+									if d==1 and y == next_y then
 										return false
-									end
-									if d==4 and y == y3-1 then
+									end--if
+									if d==4 and y == next_y-1 then
 										return false
-									end
-								end
-							elseif x3 < last_x then
-								if is_width_liner(y3,last_y) and x > x3 and x<=last_x  then
-									if d==1 and y == y3 then
-										return false
-									end
-									if d==4 and y == y3-1 then
-										return false
-									end
-								end
-							end
-						
-							if y3 > last_y  then
+									end--if
+								end--if
 								
-								if is_height_liner(x3,last_x) and y>=last_y and y < y3 then
-									if d==2 and x == x3 then
-										
+							--自右向左连线
+							elseif next_x < last_x then
+								--同上
+								if is_width_liner(next_y,last_y) and x > next_x and x<=last_x  then
+									if d==1 and y == next_y then
 										return false
-									end
-									if d==3 and x == x3+1 then
+									end--if
+									if d==4 and y == next_y-1 then
 										return false
-									end
-								end
-							elseif y3 < last_y then
-								if is_height_liner(x3,last_x) and y >= y3 and y<last_y then
-									if d==2 and x == x3 then
-										return false
-									end
-									if d==3 and x == x3+1 then
-										return false
-									end
-								end
-							end
+									end--if
+								end--if
+							end--if
 							
-							last_x,last_y=x3,y3
-						end
+							--「←→」方向的通行判断,同上
+							if next_y > last_y  then
+								if is_height_liner(next_x,last_x) and y>=last_y and y < next_y then
+									if d==2 and x == next_x then
+										return false
+									end--if
+									if d==3 and x == next_x+1 then
+										return false
+									end--if
+								end--if
+							elseif next_y < last_y then
+								if is_height_liner(next_x,last_x) and y >= next_y and y<last_y then
+									if d==2 and x == next_x then
+										return false
+									end--if
+									if d==3 and x == next_x+1 then
+										return false
+									end--if
+								end--if
+							end--if
+							
+							--接着判断下一条线
+							last_x,last_y=next_x,next_y
+						end--for
 						
-					end
-				end
-			end
-		
-		end
+					end--if
+				end--for
+			end--if
+		end--for
+		--可以通行了
 		return true
-	end
+	end--function
 	function __c:scroll_up(distance) 
 		self.display_y=math.max(self.display_y - distance, 0)
 	end
@@ -222,3 +230,22 @@ class. Display_Map() do
 		end
 	end
 end
+
+
+
+class. Scene_Map() do
+	function __c:ctor()
+		global_manager.map:setup(dofile("data/map1.lua"))
+		global_manager.display_map:setup(global_manager.map)
+		global_manager.display_player:set_image(HoGE.Image:FromFile("img/a.png"))
+		self.window_message=Window_Message:new(50,430,700,130)
+		self.window_message:set_msg("萌のRK酱:\n阿拉阿拉我就是\001[0.8,0.9,0.9]萌\001[0,0,0]RK哦")
+	end
+	function __c:update()
+		global_manager.display_player:update()
+		global_manager.display_map:update()
+		global_manager.player:update()
+		self.window_message:update()
+	end
+end
+

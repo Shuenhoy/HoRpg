@@ -8,11 +8,7 @@
 --------------------------------------------------------------------------------------
 
 global_init()
-global_manager.map:setup(dofile("data/map1.lua"))
-
-global_manager.display_map:setup(global_manager.map)
-a=Display_Character:new(global_manager.player)
-a:set_image(HoGE.Image:FromFile("img/a.png"))
+global_manager.scene=Scene_Map:new()
 
 --------------------------------------------------------------------------------------
 -- @class function
@@ -23,11 +19,7 @@ a:set_image(HoGE.Image:FromFile("img/a.png"))
 -- @return 无
 --------------------------------------------------------------------------------------
 function Update()
-	--o.step=o.step+1
---	if o.step==5 then o.step=1 end
-	a:update()
-	global_manager.display_map:update()
-	global_manager.player:update()
+	global_manager.scene:update()
 	sleep(0.05)
 end
 
