@@ -19,6 +19,8 @@
                 <File name="source\src\init.lua" />
                 <File name="source\src\main.lua" />
                 <File name="source\src\map.lua" />
+                <File name="source\src\event.lua" />
+                <File name="source\src\global.lua" />
             </Folder>
             <File name="source\maps.tmx" />
             <File name="source\_HoGE" />

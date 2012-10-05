@@ -238,14 +238,24 @@ class. Scene_Map() do
 		global_manager.map:setup(dofile("data/map1.lua"))
 		global_manager.display_map:setup(global_manager.map)
 		global_manager.display_player:set_image(HoGE.Image:FromFile("img/a.png"))
+		self.ev=Event_Interpreter:new()
 		self.window_message=Window_Message:new(50,430,700,130)
-		self.window_message:set_msg("萌のRK酱:\n阿拉阿拉我就是\001[0.8,0.9,0.9]萌\001[0,0,0]RK哦")
+		self.ev:load(function()
+			MessageBox("阿拉阿拉我就是%c[0.8,0.9,0.9]萌%c[0,0,0]RK哦","萌のRK酱")
+			MessageBox("呵呵,怎么样这个对话框很%s[30]萌%s[22]吧~","萌のRK酱")
+			MessageBox(
+[[事件系统初步完成了呢,多亏伟大的%c[0.3,0.3,0.8]@Shuenhoy%c[0,0,0]呢
+(虽然这个是直接写在地图的构造函数里=-=阿拉阿拉
+期待伟大的%c[0.3,0.3,0.7]@Shuenhoy%c[0,0,0]加入更多功能吧!]],"萌のRK酱")
+		end)
+		
 	end
 	function __c:update()
 		global_manager.display_player:update()
 		global_manager.display_map:update()
 		global_manager.player:update()
 		self.window_message:update()
+		self.ev:update()
 	end
 end
 

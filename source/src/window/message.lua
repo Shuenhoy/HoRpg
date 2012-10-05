@@ -8,33 +8,46 @@ class. Window_Message(Window_Base) do
 		render:SetSource(0,0,0)
 		render:Rectangle(0,0,width,height)
 		render:Stroke()
-		text_render.Top=10
-		text_render:Left(10)
+		text_render:Top(10)
 		
-		--visible=false
+		show_finish=false
+		text_render:Left(10)
+		self.text_render:GotoXY(0,0)
+		index=1
+		visible=false
 	end
-	function __c:set_msg(m)
-		self.msg=m
-		self.index=1
-	end
+
 	function __c:update()
-	
-		if self.msg~=nil then
-			if self.index>=#self.msg then
-				self.msg=nil
+		if self.show_finish and HoGE.KeyDown(32) then
+			self.show_finish=false
+			self.visible=false
+			global_manager.temp.message_text=nil
+			self.text_i_render:Save()
+			self.text_i_render:SetSource(0,0,0,0)
+			self.text_i_render:SetOperator(6)
+			self.text_i_render:Paint()
+			self.text_i_render:Restore()
+			self.text_render:GotoXY(0,0)
+			
+			do return end
+		elseif global_manager.temp.message_text~=nil and not self.show_finish then
+			self.visible=true
+			if self.index>=#global_manager.temp.message_text then
+				self.show_finish=true
+				self.index=1
 				return
 			end
 			
-			local s=string.char(string.byte(self.msg,self.index))
+			local s=string.char(string.byte(global_manager.temp.message_text,self.index))
 		
 			self.index=self.index+1
 			
 			if string.byte(s)>128 then
-				s=s..string.char(string.byte(self.msg,self.index))
+				s=s..string.char(string.byte(global_manager.temp.message_text,self.index))
 		
 				self.index=self.index+1
 				
-				s=s..string.char(string.byte(self.msg,self.index))
+				s=s..string.char(string.byte(global_manager.temp.message_text,self.index))
 		
 				self.index=self.index+1
 			
@@ -42,20 +55,32 @@ class. Window_Message(Window_Base) do
 			
 			if s=="\001" then
 				
-				local n=string.match(self.msg,"%[([0-9%.]+,[0-9%.]+,[0-9%.]+)%]",self.index)
-				local l=string.match(self.msg,"(\001%[[0-9%.]+,[0-9%.]+,[0-9%.]+%])")
+				local n=string.match(global_manager.temp.message_text,"%[([0-9%.]+,[0-9%.]+,[0-9%.]+)%]",self.index)
+				local l=string.match(global_manager.temp.message_text,"(\001%[[0-9%.]+,[0-9%.]+,[0-9%.]+%])")
 				
-				self.msg=string.gsub(self.msg,"\001%[([0-9%.]+,[0-9%.]+,[0-9%.]+)%]","",1)
-				print(self.msg)
+				global_manager.temp.message_text=string.gsub(global_manager.temp.message_text,"\001%[([0-9%.]+,[0-9%.]+,[0-9%.]+)%]","",1)
+				
 				
 				local r,g,b=string.match(n,"([0-9%.]+),([0-9%.]+),([0-9%.]+)")
 				self.text_render:Color(tonumber(r),tonumber(g),tonumber(b))
 			
 				
 				self.index=self.index-1--+#l
+			elseif s=="\002" then
 				
+				local n=string.match(global_manager.temp.message_text,"%[([0-9]+)%]",self.index)
+				local l=string.match(global_manager.temp.message_text,"(\002%[[0-9]+%])")
+				
+				global_manager.temp.message_text=string.gsub(global_manager.temp.message_text,"\002%[([0-9]+)%]","",1)
+				
+				
+				local s=string.match(n,"([0-9]+)")
+				self.text_render:Size(tonumber(s))
+			
+				
+				self.index=self.index-1--+#l
 			else
-				print(s)
+				
 				self.text_render:Puts(s)
 			end
 			

@@ -1,13 +1,19 @@
 
-#it's yaml
+#System
 - src/hoop.lua
 - src/init.lua
-
+- src/global.lua
+#Window
 - src/window/base.lua
 - src/window/message.lua
 
+#Map & Character
 - src/Character.lua
 - src/map.lua
 
+#Event
+- src/event.lua
+
+#Main
 - src/main.lua
 
