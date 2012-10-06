@@ -5,6 +5,9 @@ do local _ENV=finish_funcs
 	function MessageBox()
 		return global_manager.temp.message_text==nil
 	end
+	function SelectBox()
+		return global_manager.temp.selectbox_result~=nil
+	end
 end
 
 class. Event_Interpreter() do
@@ -23,6 +26,7 @@ class. Event_Interpreter() do
 			error "未初始化!"
 		end
 		self.now_type = select(2,coroutine.resume(self.co))
+		global_manager.temp.event_interpreter_type=self.now_type
 		self.finish_all=coroutine.status(self.co)=="dead"
 		
 	end
@@ -50,15 +54,40 @@ class. Event_Interpreter() do
 		end
 	end
 end
-
-
-function MessageBox(msg,name)
-	if name then
-		global_manager.temp.message_text=string.gsub(string.gsub("%c[0.9,0.7,0.7]【"..name.."】%c[0,0,0]\n"..msg,"%%c","\001"),"%%%%","%")
-		global_manager.temp.message_text=string.gsub(global_manager.temp.message_text,"%%s","\002")
-	else
-		global_manager.temp.message_text=string.gsub(string.gsub(msg,"%%c","\001"),"%%%%","%")
-		global_manager.temp.message_text=string.gsub(global_manager.temp.message_text,"%%s","\002")
+do
+	escape_table={
+		["%%c"]="\001",
+		["%%%%"]="%",
+		["%%s"]="\002",
+	}
+	local function escape(s)
+		for k,v in pairs(escape_table) do
+			s=string.gsub(s,k,v)
+		end
+		return s
 	end
-	coroutine.yield("MessageBox")
+	
+	function MessageBox(msg,name)
+		
+		if name then
+			global_manager.temp.message_text=escape("%c[0.9,0.7,0.7]【"..name.."】%c[0,0,0]\n"..msg)
+		else
+			global_manager.temp.message_text=escape(msg)
+		end
+		coroutine.yield("MessageBox")
+	end
+	function SelectBox(list,msg,name)
+		if msg then
+			if name then
+				global_manager.temp.message_text=escape("%c[0.9,0.7,0.7]【"..name.."】%c[0,0,0]\n"..msg)
+			else
+				global_manager.temp.message_text=escape(msg)
+			end
+		end
+		global_manager.temp.selectbox_list=list
+		coroutine.yield("SelectBox")
+		
+		--global_manager.temp.selectbox_finish=true
+		return global_manager.temp.selectbox_result
+	end
 end

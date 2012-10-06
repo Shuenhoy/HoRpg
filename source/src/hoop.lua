@@ -6,6 +6,12 @@ local function defclass(super)
 	
 	class_type.ctor=false
 	class_type.super=super
+	class_type.create_super=function(self,...)
+		if class_type.super then
+			class_type.super.ctor(self,...)
+			__super=class_type.super
+		end
+	end
 	class_type.superclass = _class[super]
 	class_type.new=function(self,...) 
 			local obj={}
@@ -14,12 +20,13 @@ local function defclass(super)
 			do
 				local create
 				create = function(c,...)
-					if c.super then
+					if not c.ctor and c.super then
 						create(c.super,...)
 					end
 					if c.ctor then
 						c.ctor(obj,...)
 					end
+					__super=c.super
 				end
  
 				create(class_type,...)

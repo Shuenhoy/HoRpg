@@ -240,12 +240,18 @@ class. Scene_Map() do
 		global_manager.display_player:set_image(HoGE.Image:FromFile("img/a.png"))
 		self.ev=Event_Interpreter:new()
 		self.window_message=Window_Message:new(50,430,700,130)
+		self.window_selectbase=Window_SelectBox:new(10,10)
 		self.ev:load(function()
+		if SelectBox({"你好啊萌RK","一点也不萌"},"阿拉阿拉aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","萌のRK酱")==0 then
+			
 			MessageBox("阿拉阿拉我就是%c[0.8,0.9,0.9]萌%c[0,0,0]RK哦","萌のRK酱")
-			MessageBox("呵呵,怎么样这个对话框很%s[30]萌%s[22]吧~","萌のRK酱")
+		else		
+			
+			MessageBox("我去啊","萌のRK酱")
+		end
 			MessageBox(
 [[事件系统初步完成了呢,多亏伟大的%c[0.3,0.3,0.8]@Shuenhoy%c[0,0,0]呢
-(虽然这个是直接写在地图的构造函数里=-=阿拉阿拉
+(虽然这个是直接写在地图的构造函数里=-=%s[30]阿拉阿拉%s[22]
 期待伟大的%c[0.3,0.3,0.7]@Shuenhoy%c[0,0,0]加入更多功能吧!]],"萌のRK酱")
 		end)
 		
@@ -253,9 +259,15 @@ class. Scene_Map() do
 	function __c:update()
 		global_manager.display_player:update()
 		global_manager.display_map:update()
-		global_manager.player:update()
+		if self.ev.finish_all then
+			global_manager.player:update()
+		end
 		self.window_message:update()
+		self.window_selectbase:update()
 		self.ev:update()
+	end
+	function __c:event(msg)
+		self.window_message:event(msg)
 	end
 end
 

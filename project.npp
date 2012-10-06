@@ -13,6 +13,7 @@
                 <Folder name="window">
                     <File name="source\src\window\message.lua" />
                     <File name="source\src\window\base.lua" />
+                    <File name="source\src\window\selectbase.lua" />
                 </Folder>
                 <File name="source\src\Character.lua" />
                 <File name="source\src\hoop.lua" />
@@ -21,6 +22,7 @@
                 <File name="source\src\map.lua" />
                 <File name="source\src\event.lua" />
                 <File name="source\src\global.lua" />
+                <File name="source\src\Utilities.lua" />
             </Folder>
             <File name="source\maps.tmx" />
             <File name="source\_HoGE" />

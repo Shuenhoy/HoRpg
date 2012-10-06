@@ -101,9 +101,7 @@ class. Game_Player(Game_Character) do
 	local CENTER_X = (getIntPart(Game.Width/2) - 16) * 4  
 	local CENTER_Y = (getIntPart(Game.Height/2) - 16) * 4   
 	
-	function __c:ctor()
-		
-	end
+
 	function __c:update()
 		
 		if not self:moving() then
@@ -120,7 +118,7 @@ class. Game_Player(Game_Character) do
 		end
 		local last_real_x=self.real_x
 		local last_real_y=self.real_y
-		self.type.superclass.update(self)
+		Game_Player.superclass.update(self)
 		
 		if self.real_y>last_real_y and self.real_y-global_manager.map.display_y > CENTER_Y then 
 			global_manager.map:scroll_down(self.real_y-last_real_y)

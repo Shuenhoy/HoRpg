@@ -38,7 +38,9 @@ function Event(msg)
 			os.execute("pause")
 		end
 	end
-	
+	if global_manager.scene.event then
+		global_manager.scene:event(msg)
+	end
 	--	o:moveto(p.x,o.y)
 	
 end
