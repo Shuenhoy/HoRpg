@@ -9,7 +9,9 @@ do local _ENV=finish_funcs
 		return global_manager.temp.selectbox_result~=nil
 	end
 end
-
+function load_eventdata(yml)
+	return yaml.load(yml)
+end
 class. Event_Interpreter() do
 	
 	function __c:ctor()

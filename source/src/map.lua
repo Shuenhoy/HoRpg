@@ -20,7 +20,9 @@ local print_r=print_r
 class. Game_Map() do
 
 	function __c:ctor()
-		
+		self.interpreter=Event_Interpreter:new()
+		self.events={}
+		self.id=0
 	end
 	function __c:setup(data)
 		local G=_G
@@ -238,22 +240,9 @@ class. Scene_Map() do
 		global_manager.map:setup(dofile("data/map1.lua"))
 		global_manager.display_map:setup(global_manager.map)
 		global_manager.display_player:set_image(HoGE.Image:FromFile("img/a.png"))
-		self.ev=Event_Interpreter:new()
 		self.window_message=Window_Message:new(50,430,700,130)
 		self.window_selectbase=Window_SelectBox:new(10,10)
-		self.ev:load(function()
-		if SelectBox({"你好啊萌RK","一点也不萌"},"阿拉阿拉aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","萌のRK酱")==0 then
-			
-			MessageBox("阿拉阿拉我就是%c[0.8,0.9,0.9]萌%c[0,0,0]RK哦","萌のRK酱")
-		else		
-			
-			MessageBox("我去啊","萌のRK酱")
-		end
-			MessageBox(
-[[事件系统初步完成了呢,多亏伟大的%c[0.3,0.3,0.8]@Shuenhoy%c[0,0,0]呢
-(虽然这个是直接写在地图的构造函数里=-=%s[30]阿拉阿拉%s[22]
-期待伟大的%c[0.3,0.3,0.7]@Shuenhoy%c[0,0,0]加入更多功能吧!]],"萌のRK酱")
-		end)
+		
 		
 	end
 	function __c:update()

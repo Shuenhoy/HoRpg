@@ -1,5 +1,12 @@
 
+--引入socket库,这里用于sleep
+require "socket"
 
+require("coding")
+local yaml=require "yaml"
+local zlib=require "lua-zlib"
+local tea=coding.tea
+local teadec=coding.teadec
 local dofile=dofile
 local print = print
 local tconcat = table.concat
@@ -54,8 +61,6 @@ function table.copy(ori_tab)
 end
 
 
---引入socket库,这里用于sleep
-require "socket"
 
 --------------------------------------------------------------------------------------
 -- @class function
@@ -152,3 +157,52 @@ function string.utf8len(str)
 	end
 	return cnt
 end
+
+
+
+local function myteadec(input,key)
+	local output_byte={}
+	local length=#input
+	for i=1,length,8 do 
+		local temp=string.sub(input,i,i+7)
+		local out1=teadec(temp,key)
+		table.insert(output_byte,out1)
+	end
+	local out_str=table.concat(output_byte)
+	local n=string.byte(out_str,-1)
+
+	return string.sub(out_str,1,#out_str-n)
+end
+
+
+
+local argv
+local data
+function loader_init(filname,k)
+	argv=arg
+	local uncompress = zlib.inflate()  
+	if argv[2]=="-debug" then
+		local fp=io.open(filname,"rb")
+		require("cjson")
+		
+		
+		if fp==nil then  
+			error [[cannot find the Resource file]];	
+		end
+		
+		
+		data=cjson.decode(myteadec(uncompress(file),k));
+		fp:close()
+	end	
+end
+function load_data(name,t)
+	if argv[2]=="-debug" then
+		local fp=io.open(name,t or "r")
+		local a=fp:read()
+		fp:close()
+		return a
+	else
+		return data[name]
+	end
+end
+

@@ -135,6 +135,21 @@ class. Game_Player(Game_Character) do
 		end
 	end
 end
+
+class. Game_NPC(Game_Character) do
+	function __c:ctor(map_id,eventdata)
+		Game_NPC:create_super()
+		self.map_id=map_id
+		self.id=eventdata.id
+		
+	end
+
+end
+
+
+
+
+
 class. Display_Character() do	
 	function __c:ctor(character)
 		self.sprite=Sprite:new(2)
