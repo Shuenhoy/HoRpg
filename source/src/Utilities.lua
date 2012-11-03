@@ -246,7 +246,10 @@ end
 ZPosSet={
   MapBottom     =   1 ;
   MapTop        =  10 ; 
-  Character     =   3 ;
+  Character     =   4 ;
+  Window        =  50 ;
+  WindowText    =  51 ;
+  UnderWindow   =  49 ;
 }
 
 

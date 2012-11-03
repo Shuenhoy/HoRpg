@@ -3,6 +3,7 @@
 - src/hoop.lua
 - src/init.lua
 - src/Utilities.lua
+- src/Cache.lua
 - src/global.lua
 
 #Window

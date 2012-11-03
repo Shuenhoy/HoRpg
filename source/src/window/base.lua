@@ -1,12 +1,12 @@
 local Image,Sprite,TextRender=HoGE.Image,HoGE.Sprite,HoGE.TextRender
-
+local ZPosSet=ZPosSet
 class. Window_Base() do
 	function __c:ctor(x,y,width,height)
 		do local _ENV=self
 			self.width=width
 			self.height=height
 			background=Image:new(width,height)
-			sprite=Sprite:new(999)
+			sprite=Sprite:new(ZPosSet.Window)
 			sprite.X=x
 			sprite.Y=y
 			sprite:Image(background)
@@ -14,7 +14,7 @@ class. Window_Base() do
 			text_image=Image:new(width,height)
 			text_i_render=text_image:Draw()
 			text_render=TextRender:new(text_image)
-			text_sprite=Sprite:new(1000)
+			text_sprite=Sprite:new(ZPosSet.WindowText)
 			text_sprite:Image(text_image)
 			text_sprite.X=x
 			text_sprite.Y=y
@@ -38,11 +38,11 @@ class. Window_Base() do
 		self.text_render:GotoXY(0,0)
 	end
 	function __c:delete()
-		text_sprite:delete()
-		sprite:delete()
-		render:End()
-		text_i_render:End()
-		text_render:delete()
+		self.text_sprite:delete()
+		self.sprite:delete()
+		self.render:End()
+		self.text_i_render:End()
+		self.text_render:delete()
 	end
 	function __c:update()
 		

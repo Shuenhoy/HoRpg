@@ -14,7 +14,7 @@ class. Game_Character() do
     self.real_y=0
     self.x=1
     self.y=1
-    self.z=2
+    self.z=ZPosSet.Character
     
   
   
@@ -182,7 +182,7 @@ end
 
 class. Display_Character() do  
   function __c:ctor(character)
-    self.z=character.z
+    self.z=0
     self.sprite=Sprite:new(ZPosSet.Character)
     self.image=nil
     self.character=character
@@ -191,7 +191,12 @@ class. Display_Character() do
     self.sprite.Rect=self.rect
     self.file=""
     self.x=self.character.x
-    self.y=self.character.y
+    self.y=0
+    
+   
+   
+   
+   
   end
   function __c:set_image(img)
     self.image=img
@@ -203,27 +208,25 @@ class. Display_Character() do
     return (self.character.real_x)/4,(self.character.real_y)/4+16
   end
   function __c:update()
-    if self.x~=self.character.x then
-      self.x=self.character.y
-    end
+   
 
     if self.file~=self.character.file then
       self.file=self.character.file
       
-      self:set_image(HoGE.Image:FromFile(self.character.file))
+      self:set_image(Cache.load_file(self.character.file))
       
     end
     if self.file~="" then
-    self.sprite.Rect:Set(self.character:get_rect(self.image.Width,self.image.Height))
-    self.sprite.X,self.sprite.Y=self:display_pos()
-  
-    self.sprite.OX=global_manager.map.display_x/4
-    self.sprite.OY=global_manager.map.display_y/4
+      self.sprite.Rect:Set(self.character:get_rect(self.image.Width,self.image.Height))
+      self.sprite.X,self.sprite.Y=self:display_pos()
+    
+      self.sprite.OX=global_manager.map.display_x/4
+      self.sprite.OY=global_manager.map.display_y/4
     end
-    if self.z~=self.character.z or self.y~=self.character.y then 
-      self.z=self.character.z
-      self.y=self.character.y
-      self.sprite:Z(self.z)
+    if  self.y~=global_manager.player.y then 
+      self.y=global_manager.player.y
+      self.sprite:Z(ZPosSet.Character)
+
     end
 
   end

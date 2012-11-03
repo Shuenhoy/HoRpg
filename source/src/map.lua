@@ -22,7 +22,7 @@ local Game_Event=Game_Event
 local Game_Player=Game_Player
 local ZPosSet=ZPosSet
 local GBK=GBK
-
+local Cache=Cache
 class. Game_Map() do
 
   function __c:ctor()
@@ -59,7 +59,7 @@ class. Game_Map() do
     end
   end
   function __c:start_event()
-    if self.interpreter.finish_all and HoGE.KeyDown(13) then
+    if self.interpreter.finish_all and HoGE.KeyDown(32) then
       foreachi(self:event_xy(global_manager.player.x,global_manager.player.y),
         function(i,v)
           v:start()
@@ -218,7 +218,7 @@ class. Display_Map() do
     local data=map.data
     do local _ENV=self
       self.data=data
-      tile=Image:FromFile(GBK(data.tilesets[1].image))
+      tile=Cache.load_file(GBK(data.tilesets[1].image))
       bottom_image=Image:new(data.width*data.tilewidth,data.height*data.tileheight)
       top_image=Image:new(data.width*data.tilewidth,data.height*data.tileheight)
       width=data.width

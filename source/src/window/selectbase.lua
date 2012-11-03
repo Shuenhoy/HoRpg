@@ -29,7 +29,7 @@ class. Window_SelectBase(Window_Base) do
 		end
 		
 		self.arrow=Sprite:new(1001)
-		local arrow_img=Image:FromFile("img/arrow.png")
+		local arrow_img=Cache.load_file("img/arrow.png")
 		self.arrow_img=arrow_img
 		self.arrow:Image(arrow_img)
 		self.arrow.X=x+10
@@ -68,6 +68,7 @@ class. Window_SelectBase(Window_Base) do
 	end
 	function __c:delete()
 		self.arrow:delete()
+    Window_SelectBase.superclass.delete(self)
 	end
 end 
 
@@ -82,7 +83,6 @@ class. Window_SelectBox() do
 		global_manager.temp.selectbox_result=i
 		global_manager.temp.message_text=nil
 		global_manager.temp.selectbox_finish=true
-    print(i)
 	end
 	function __c:update()
 		if global_manager.temp.message_show_finishi==true then
