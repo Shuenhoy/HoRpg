@@ -24,13 +24,10 @@ events:
     graphic: "img/a.png"
     
     direction: 1
-    
     #[运动方式],后为!!int(1=>原地不动,2=>随机移动,3=>跟随主角,4=>远离主角)或!!str(lua代码,自定义运动)
     move_type: 1
-    
     #[速度],后为!!int
     move_speed: 1
-    
     #[频率],后为!!int
     move_frequency: 1
     #[条件],后为!!bool或者为!!str(lua代码,返回bool),可省略
@@ -38,8 +35,8 @@ events:
     
     #[代码],内为lua代码
     work: |
-      MessageBox("阿拉阿拉,你就是萌RK哦","RobotXM")
-      MessageBox("阿拉阿拉,我就是萌RK哦","萌RK")
+      MessageBox("阿拉阿拉\n苏格拉底死前说%c[0.7,0.9,0.7]「你们务必保持节操」%c[0,0,0]\n接受必死的命运吧萌RK?","RobotXM","img/robotxm.png")
+      MessageBox("阿拉阿拉,我就是萌RK哦","萌RK","img/mface.png")
       if SelectBox({"to be moe","not to be moe"},"To be or not to be,that is the question:","RobotXM")==0 then
         MessageBox("阿拉阿拉,当然要卖萌哦","萌RK")
         MessageBox("啊喂","RobotXM")

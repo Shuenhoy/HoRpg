@@ -1,4 +1,5 @@
 local Image,Sprite=HoGE.Image,HoGE.Sprite
+local ZPosSet=ZPosSet
 class. Window_Message(Window_Base) do
   function __c:ctor(x,y,width,height)
     Window_Message.create_super(self,x,y,width,height)
@@ -9,13 +10,26 @@ class. Window_Message(Window_Base) do
     text_render:Left(10)
     self.text_render:GotoXY(0,0)
     index=1
+    self.face=Sprite:new(ZPosSet.UnderWindow)
+    self.face.Visible=false
+    self.face.Scale[1]=0.4
+    self.face.Scale[2]=0.4
+    self.face.Y=y-150
+    self.face.X=70
     visible=false
   end
   function __c:render_text()
     self.visible=true
+    if self.index==1 then
+      if global_manager.temp.message_face then
+        self.face:Image(Cache.load_file(global_manager.temp.message_face))
+        self.face.Visible=true
+      end
+    end
     if self.index>=#global_manager.temp.message_text then
       global_manager.temp.message_show_finishi=true
       self.index=1
+       
       return
     end
     local s=string.char(string.byte(global_manager.temp.message_text,self.index))
@@ -100,14 +114,13 @@ class. Window_Message(Window_Base) do
       self.visible=false
       global_manager.temp.message_text=nil
       self:clear_text()
-      
+      self.face.Visible=false
+      global_manager.temp.message_face=nil
       return
     
     elseif global_manager.temp.message_text~=nil and not global_manager.temp.message_show_finishi then
       
       self:render_text()
-      
-    
       
     end
   

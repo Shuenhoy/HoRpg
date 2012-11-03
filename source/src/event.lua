@@ -31,6 +31,9 @@ class. Event_Interpreter() do
     self.now_type = select(2,coroutine.resume(self.co))
     global_manager.temp.event_interpreter_type=self.now_type
     self.finish_all=coroutine.status(self.co)=="dead"
+    if self.finish_all then
+      sleep(0.1)
+    end
   end
   
   function __c:finish_now()
@@ -70,13 +73,14 @@ do
     return s
   end
   
-  function MessageBox(msg,name)
+  function MessageBox(msg,name,face)
     
     if name then
       global_manager.temp.message_text=escape("%c[0.9,0.7,0.7]【"..name.."】%c[0,0,0]\n"..msg)
     else
       global_manager.temp.message_text=escape(msg)
     end
+    global_manager.temp.message_face=face
     coroutine.yield("MessageBox")
   end
   function SelectBox(list,msg,name)
