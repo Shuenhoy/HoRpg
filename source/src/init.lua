@@ -29,6 +29,8 @@ HoGELua.Init(
 	Game.UpdateFunction,
 	Game.ShowCursor,
 	Game.ThreeRender)
+
+
 --AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 --------------------------------------------------------------------------------------
 -- @class function

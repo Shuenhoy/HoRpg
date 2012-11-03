@@ -35,7 +35,7 @@ class. Window_SelectBase(Window_Base) do
 		self.arrow.X=x+10
 		self.arrow.Y=y+10
 		self.index=0
-		
+		self.Visible=true
 		self.max=#select_list
 		self.x=x
 		self.y=y
@@ -82,12 +82,15 @@ class. Window_SelectBox() do
 		global_manager.temp.selectbox_result=i
 		global_manager.temp.message_text=nil
 		global_manager.temp.selectbox_finish=true
+    print(i)
 	end
 	function __c:update()
 		if global_manager.temp.message_show_finishi==true then
 			if global_manager.temp.selectbox_list~=nil then
 				if self.select_base~=nil then self.select_base:delete() end
+        
 				self.select_base=Window_SelectBase:new(self.x,self.y,global_manager.temp.selectbox_list)
+        self.select_base.visible=true
 				self.select_base.commit_func=self.commit_func
 				global_manager.temp.selectbox_list=nil
 				

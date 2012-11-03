@@ -1,8 +1,8 @@
 
 #System
 - src/hoop.lua
-- src/Utilities.lua
 - src/init.lua
+- src/Utilities.lua
 - src/global.lua
 
 #Window
